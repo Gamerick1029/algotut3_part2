@@ -7,7 +7,8 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args){
-        Prims pr = new Prims(Graph.randomGraph(20, 0.5));
+        Graph rndg = Graph.randomGraph(20, 0.5);
+        Prims pr = new Prims(rndg);
         System.out.println("randomised");
         pr.graphIt();
 
@@ -27,7 +28,19 @@ public class Main {
             gd.addEdge(edge.end1, edge.end2, Color.BLACK);
         }
 
-        gd.showInWindow(500, 500, "");
+        GraphDisplay gd2 = new GraphDisplay();
+
+        for (Graph.Position position: rndg.getVertices()){
+            gd2.addNode(position, position.x, position.y);
+        }
+
+        for (Graph.Edge edge : rndg.edges()){
+            gd2.addEdge(edge.end1, edge.end2, Color.BLACK);
+        }
+
+
+        gd.showInWindow(500, 500, "prims");
+        gd2.showInWindow(500, 500, "original");
     }
 
 }

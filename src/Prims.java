@@ -1,3 +1,5 @@
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.TreeSet;
@@ -46,7 +48,13 @@ public class Prims {
             addedNodes.add(j);
             System.out.println(graph.neighbours(j));
             for (int k:graph.neighbours(j)) {
-                if ((!addedNodes.contains(k)) && (!edgesToCheck.contains(graph.getEdge(j,k)))) edgesToCheck.add(graph.getEdge(j, k));
+                if ((!addedNodes.contains(k)) && (!edgesToCheck.contains(graph.getEdge(j,k)))) {
+                    Boolean nodeExists = false;
+                    for (Graph.Edge edge: edgesToCheck){
+                        if (edge.positionExists(graph.position(j)) || edge.positionExists(graph.position(k))) nodeExists = true;
+                    }
+                    if (!nodeExists) edgesToCheck.add(graph.getEdge(j, k));
+                }
             }
             Graph.Edge newEdge = edgesToCheck.poll();
             if (newEdge != null) {
